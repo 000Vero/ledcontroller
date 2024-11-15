@@ -31,6 +31,8 @@
                 }]
             };
 
+            var poweronCommand = Uint8Array.fromHex("7e00040100000000ef");
+
             function getDev() {
                 log("Searching for ELK-BLEDOM with service 0xFFF0");
                 navigator.bluetooth.requestDevice(options).then(device => {
@@ -63,6 +65,8 @@
                     btn.className = "btn btn-danger";
                     btn.innerText = "Disconnect";
                     btn.onclick = disconnect;
+
+                    bcharacteristic.writeValue(poweronCommand);
                 });
             }
 
