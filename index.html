@@ -38,37 +38,41 @@
 
             function getDev() {
                 log("Searching for ELK-BLEDOM with service 0xFFF0");
-                navigator.bluetooth.requestDevice(options).then(device => {
-                    log("Connecting to device...");
-                    try {
-                        localdevice = device;
-                        device.addEventListener("gattserverdisconnected", onDisconnected);
-                        return device.gatt.connect();
-                    } catch (exc) {
-                        log(exc)
-                    };
-                }).then(server => {
-                    log("Getting primary service...");
-                    try {
-                        return server.getPrimaryService(0xFFF0);
-                    } catch (exc) {
-                        log(exc + "\nError in getting primary service")
-                    };
-                }).then(service => {
-                    log("Getting service characteristic...");
-                    try {
-                        return service.getCharacteristic(0xFFF3);
-                    } catch (exc) {
-                        log(exc + "\nError in getting service characteristic")
-                    };
-                }).then(bcharacteristic => {
-                    characteristic = bcharacteristic;
-                    log("Connected!")
-                    let btn = document.getElementById("control-button");
-                    btn.className = "btn btn-danger";
-                    btn.innerText = "Disconnect";
-                    btn.onclick = disconnect;
-                });
+                try {
+                    navigator.bluetooth.requestDevice(options).then(device => {
+                        log("Connecting to device...");
+                        try {
+                            localdevice = device;
+                            device.addEventListener("gattserverdisconnected", onDisconnected);
+                            return device.gatt.connect();
+                        } catch (exc) {
+                            log(exc)
+                        };
+                        }).then(server => {
+                            log("Getting primary service...");
+                            try {
+                                return server.getPrimaryService(0xFFF0);
+                            } catch (exc) {
+                                log(exc + "\nError in getting primary service")
+                            };
+                        }).then(service => {
+                            log("Getting service characteristic...");
+                            try {
+                                return service.getCharacteristic(0xFFF3);
+                            } catch (exc) {
+                                log(exc + "\nError in getting service characteristic")
+                            };
+                        }).then(bcharacteristic => {
+                            characteristic = bcharacteristic;
+                            log("Connected!")
+                            let btn = document.getElementById("control-button");
+                            btn.className = "btn btn-danger";
+                            btn.innerText = "Disconnect";
+                            btn.onclick = disconnect;
+                        });
+                } catch (exception) {
+                    if (exception.name == "TypeError") log("Bluetooth is not supported in your browser");
+                }
             }
 
             function onDisconnected(event) {
