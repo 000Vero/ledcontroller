@@ -20,8 +20,13 @@
             var characteristic = null;
             var localdevice = null;
 
+            log("Web Bluetooth API is only supported in Chrome and Edge (11-16-24)")
+
             function log(text) {
-                document.getElementById("out").value += text + "\n";
+                let logOutput = document.getElementById("out");
+                logOutput.value += text + "\n";
+                logOutput.scrollTop = logOutput.scrollTopMax;
+
             }
             let options = {
                 filters: [{
