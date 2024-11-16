@@ -25,7 +25,7 @@
             function log(text) {
                 let logOutput = document.getElementById("out");
                 logOutput.value += text + "\n";
-                logOutput.scrollTop = logOutput.scrollTopMax;
+                logOutput.scrollTop = logOutput.scrollHeight - logOutput.clientHeight;
 
             }
             let options = {
